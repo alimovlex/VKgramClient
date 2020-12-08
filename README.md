@@ -1,1 +1,1 @@
-VKgramClient
+VKgram
