@@ -16,8 +16,6 @@ class FriendPostsCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-//    var likesNumberLabel: UILabel!
-    
     var likeButton: LikeButton = {
         let button = LikeButton()
         button.strokeColor = .white
@@ -33,8 +31,6 @@ class FriendPostsCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-//    var selectedPost = Post()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,34 +66,11 @@ class FriendPostsCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-//    func pressLikeButton(_ sender: Any) {
-//                print("button is pressed")
-////        if likeButton.filled {
-////            numberOfLikes += 1
-////            likesNumberLabel.text = String(numberOfLikes)
-////        } else {
-////            numberOfLikes -= 1
-////            likesNumberLabel.text = String(numberOfLikes)
-////        }
-//    }
-    
     
     func configure(for model: Photo) {
-//        selectedPost = model
-        //        friendAge.text = "\(model.age)"
-        
-//        friendPhotoImage.loadImageUsingCacheWithURLString(model.photo604, placeHolder: nil) { (bool) in
-//            //perform actions if needed
-//        }
         
         PhotoService.shared.photo(url: model.photo604) { image in
             self.friendPhotoImage.image = image
         }
-        
-//        if model.photoUrls.count > 1 {
-//            multiplePicSign.isHidden = false
-//        } else {
-//            multiplePicSign.isHidden = true
-//        }
     }
 }

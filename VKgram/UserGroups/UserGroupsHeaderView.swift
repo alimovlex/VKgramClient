@@ -19,8 +19,7 @@ class UserGroupsHeaderView: UIView {
     }()
     var profileNameLabel: UILabel = {
         let label = UILabel()
-        label.font = Constants.Fonts.semiBoldOfSize14 // TODO: to add to constants
-//        label.textColor = UIColor(named: "T2MDarkGrey") // TODO: to add to constants
+        label.font = Constants.Fonts.semiBoldOfSize14
         label.textAlignment = .left
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -29,8 +28,7 @@ class UserGroupsHeaderView: UIView {
     
     var phoneNumberLabel: UILabel = {
         let label = UILabel()
-        label.font = Constants.Fonts.regularOfSize12// TODO: to add to constants
-//        label.textColor = UIColor(named: "T2MDarkGrey")
+        label.font = Constants.Fonts.regularOfSize12
         label.textAlignment = .left
         label.alpha = 0.5
         
@@ -71,7 +69,7 @@ class UserGroupsHeaderView: UIView {
         
         NSLayoutConstraint.activate([
             profileImage.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            profileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),  // TODO: to add to constants
+            profileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             profileImage.widthAnchor.constraint(equalTo: profileImage.heightAnchor),
             profileImage.heightAnchor.constraint(equalToConstant: 120),
             

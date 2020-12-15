@@ -14,7 +14,6 @@ class LikeBarView: UIView {
         let button = LikeButton()
         button.strokeColor = .black
         button.tintColor = .systemPink
-//        button.backgroundColor = .green
         button.addTarget(self, action: #selector(likeButtonPressed), for: .touchUpInside)
         
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +23,6 @@ class LikeBarView: UIView {
         let label = UILabel()
         label.font = Constants.Fonts.semiBoldOfSize16
         label.numberOfLines = 1
-//        label.backgroundColor = .lightGray
         label.sizeToFit()
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,7 +33,6 @@ class LikeBarView: UIView {
         let label = UILabel()
         label.font = Constants.Fonts.semiBoldOfSize14 // TODO: to add to constants
         label.numberOfLines = 1
-//        label.backgroundColor = .white
         label.sizeToFit()
         label.alpha = 0.2
         
@@ -47,10 +44,7 @@ class LikeBarView: UIView {
         let label = UILabel()
         label.font = Constants.Fonts.semiBoldOfSize16
         label.text = "likes"
-//        label.font = UIFont(name: "Montserrat-SemiBold", size: 14) // TODO: to add to constants
-//        label.textColor = UIColor(named: "T2MDarkGrey")
         label.textAlignment = .left
-//        label.backgroundColor = .magenta
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -60,7 +54,6 @@ class LikeBarView: UIView {
         let button = UIButton()
         let image = UIImage(named: "comment")
         button.setImage(image, for: .normal)
-//        button.backgroundColor = .white
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -70,7 +63,6 @@ class LikeBarView: UIView {
         let button = UIButton()
         let image = UIImage(named: "plane")
         button.setImage(image, for: .normal)
-//        button.backgroundColor = .white
         
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -81,7 +73,6 @@ class LikeBarView: UIView {
         let image = UIImage(named: "views")
         view.image = image
         view.alpha = 0.2
-//        view.backgroundColor = .white
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

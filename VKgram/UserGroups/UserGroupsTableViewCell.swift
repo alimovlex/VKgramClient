@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserGroupsTableViewCell: UITableViewCell { // TODO: to add search bar
+class UserGroupsTableViewCell: UITableViewCell {
     
     var groupImage: RoundCornersImageView = {
         let view = RoundCornersImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -62,7 +62,7 @@ class UserGroupsTableViewCell: UITableViewCell { // TODO: to add search bar
         NSLayoutConstraint.activate([
             
             groupImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            groupImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),  // TODO: to add to constants
+            groupImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
             groupImage.widthAnchor.constraint(equalTo: groupImage.heightAnchor),
             groupImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
             

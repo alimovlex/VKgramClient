@@ -1,13 +1,6 @@
-//
-//  MMessage.swift
-//  IChat
-//
-//  Created by Алексей Пархоменко on 03.02.2020.
-//  Copyright © 2020 Алексей Пархоменко. All rights reserved.
-//
 
 import UIKit
-//import FirebaseFirestore
+
 import MessageKit
 
 struct MMessage: Hashable, MessageType {
@@ -31,19 +24,6 @@ struct MMessage: Hashable, MessageType {
         sentDate = Date()
         id = nil
     }
-    
-//    init?(document: QueryDocumentSnapshot) {
-//        let data = document.data()
-//        guard let sentDate = data["created"] as? Timestamp else { return nil }
-//        guard let senderId = data["senderID"] as? String else { return nil }
-//        guard let senderName = data["senderName"] as? String else { return nil }
-//        guard let content = data["content"] as? String else { return nil }
-//
-//        self.id = document.documentID
-//        self.sentDate = sentDate.dateValue()
-//        sender = Sender(senderId: senderId, displayName: senderName)
-//        self.content = content
-//    }
     
     var representation: [String: Any] {
         let rep: [String: Any] = [

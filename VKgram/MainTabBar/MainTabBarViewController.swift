@@ -50,8 +50,8 @@ class MainTabBarViewController: UITabBarController {
         
         guard let items = tabBar.items else { return }
         
-        for item in items { // TODO: to check why it is not working (to slightly shift the images down)
-            item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0) // TODO: to put in constants
+        for item in items {
+            item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         }
     }
 }

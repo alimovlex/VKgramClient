@@ -18,10 +18,6 @@ class UserGroupsViewController: UIViewController {
     
     private (set) var selectedGroup: GroupItem?
     
-//    private (set) var groupsDictionary = [String: [Group]]()
-    
-//    private (set) var groupSectionTitles = [String]()
-    
     private (set) var groupHeaderView: UserGroupsHeaderView = {
         let view = UserGroupsHeaderView()
         
@@ -160,8 +156,6 @@ extension UserGroupsViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserGroupsTableViewCell
         
             cell.configure(for: groupsToDisplay[indexPath.row])
-
-//        tableView.reloadRows(at: [indexPath], with: .automatic)
         
         return cell
     }

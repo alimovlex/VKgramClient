@@ -129,20 +129,9 @@ class StorageService {
         var localPhotos = [LocalPhoto]()
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LocalPhoto")
         localPhotos = ( try? context.fetch(fetchRequest)) as! [LocalPhoto]
-        //        let localPhotos = (try? context.fetch(LocalPhoto.fetchRequest()) as? [LocalPhoto] ?? [])
+
         for localPhoto in localPhotos {
-//            let photo = Photo(albumID: Int(localPhoto.albumID),
-//                              date: Int(localPhoto.date),
-//                              id: Int(localPhoto.id),
-//                              ownerID: Int(localPhoto.ownerID),
-//                              hasTags: localPhoto.hasTags,
-//                              height: Int(localPhoto.height),
-//                              photo130: localPhoto.photo130,
-//                              photo604: localPhoto.photo604,
-//                              photo75: localPhoto.photo75,
-//                              photo807: localPhoto.photo807,
-//                              text: localPhoto.text,
-//                              width: Int(localPhoto.width))
+
             let photo = Photo(albumID: Int(localPhoto.albumID),
                               date: Int(localPhoto.date),
                               id: Int(localPhoto.id),
@@ -163,7 +152,7 @@ class StorageService {
                               canComment: Int(localPhoto.canComment),
                               tags: PhotoComments(count: Int(localPhoto.tagsPhotoComments)),
                               photo2560: localPhoto.photo2560)
-//            print("the photo is loaded with likes no:", photo.likesCount)
+
             photos.append(photo)
         }
         return photos

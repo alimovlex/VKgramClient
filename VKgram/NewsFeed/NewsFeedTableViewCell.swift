@@ -16,7 +16,6 @@ class NewsFeedTableViewCell: UITableViewCell {
     
     var profileView: ProfileView = {
         let view = ProfileView()
-//        view.backgroundColor = .brown
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -24,7 +23,6 @@ class NewsFeedTableViewCell: UITableViewCell {
     
     var photoCollageView: PhotoCollageView = {
         let view = PhotoCollageView()
-//        view.backgroundColor = .green
 
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -32,7 +30,6 @@ class NewsFeedTableViewCell: UITableViewCell {
 
     var likeBarView: LikeBarView = {
         let view = LikeBarView()
-//        view.backgroundColor = .orange
 
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -43,7 +40,6 @@ class NewsFeedTableViewCell: UITableViewCell {
         label.font = Constants.Fonts.regularOfSize16
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-//        label.backgroundColor = .systemYellow
         label.sizeToFit()
 
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +80,6 @@ class NewsFeedTableViewCell: UITableViewCell {
     }
     
     @objc func showMoreText() {
-//        print("more text button is pressed")
         isExpanded = !isExpanded
         
         postTextLabel.numberOfLines = isExpanded ? 0 : 2

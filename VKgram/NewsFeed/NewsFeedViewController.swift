@@ -13,8 +13,6 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     
     var networkService = NetworkService()
     
-//    var newFeedItems = [Item]()
-    
     var newsFeedGroups = [Group]()
     
     var newsFeedProfiles = [Profile]()
@@ -90,7 +88,6 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         
         var profilesOrGroups = [ProfileInterface]()
         
-//        let item = newFeedItems[indexPath.row]
         for item in items {
         
         if item.sourceID! >= 0 {
@@ -124,15 +121,6 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         }
     }
     
-//    func handleGetNewsFeedNextResponse(item: ItemResponse, profile: ProfileResponse, group: GroupResponse) {
-//        self.newFeedItems.append(contentsOf: item.items)
-//        self.newsFeedProfiles.append(contentsOf: profile.profiles)
-//        self.newsFeedGroups.append(contentsOf: group.groups)
-//        self.nextFrom = item.nextFrom
-//
-//        DispatchQueue.main.async { self.tableView.reloadData() }
-//    }
-    
     func revealPost(for cell: NewsFeedTableViewCell) {
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -150,49 +138,14 @@ extension NewsFeedViewController: UITableViewDataSource, UITableViewDelegate {
         cell.delegate = self
         
         let item = profilesAndItems[indexPath.row]
-        
-//        if item.sourceID! >= 0 {
-//            profilesOfGroups = newsFeedProfiles
-//        } else {
-//            profilesOfGroups = newsFeedGroups
-//        }
-//
-//        let positiveSourceId = item.sourceID! >= 0 ? item.sourceID : (item.sourceID! * -1)
-//
-//        let dataToDisplay = profilesOfGroups.first(where: {$0.id == positiveSourceId })
+
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.configure(item: item.newsItem)
         cell.configureProfile(photo: item.profile?.photo, name: item.profile?.name)
         cell.photoCollageView.isUserInteractionEnabled = false
         
-//        currentIndexPathRow = indexPath.row
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToVC(_:)))
-//        cell.photoCollageView.addGestureRecognizer(tapGesture)
-        
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        guard !isLoading else { return }
-//        
-//        if indexPath.row == newFeedItems.count - 1 {
-//            let lastIndex = indexPath.row
-//            isLoading = true
-//            firstly {
-//                networkService.getNewsFeedItemsWithStartTime(startFrom: nextFrom)!
-//            }.done { (result) in
-//                
-//                self.handleGetNewsFeedNextResponse(item: result.0.response, profile: result.1.response, group: result.2.response)
-//                
-//                let indexPaths = self.makeIndexSet(lastIndex: lastIndex, result.0.response.items.count)
-//                tableView.insertRows(at: indexPaths, with: .automatic)
-//                self.isLoading = false
-//            }.catch { (error) in
-//                debugPrint(error.localizedDescription)
-//                self.isLoading = false
-//            }
-//        }
-//    }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -231,8 +184,7 @@ extension NewsFeedViewController: UITableViewDataSourcePrefetching {
         guard indexPath.row == profilesAndItems.count - 1 else { return }
         
         guard !isLoading else { return }
-        
-//        if indexPath.row == newFeedItems.count - 1 {
+
             let lastIndex = indexPath.row
             isLoading = true
             firstly {
@@ -248,7 +200,6 @@ extension NewsFeedViewController: UITableViewDataSourcePrefetching {
                 debugPrint(error.localizedDescription)
                 self.isLoading = false
             }
-//        }
     }
 }
 }

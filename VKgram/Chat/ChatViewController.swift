@@ -9,7 +9,6 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
-//import FirebaseFirestore
 
 class ChatViewController: MessagesViewController {
     
@@ -18,8 +17,6 @@ class ChatViewController: MessagesViewController {
     let mockMessage2 = MMessage(user: MUser(username: "Slava", email: "slava@gmail.com", avatarStringURL: "https://lh3.googleusercontent.com/i1ntSY7ACWnaxtdxI0KO9vHh0UNtXRin1YNnSVCpfmE5JH9752u4tFLyd-gWM9Hi-zyASAW8lYXnNvLfT7LHJUVJOgjAqbA74b0-m-UU8XdZSiFnTnYRADTmRVyXOiprgp0TsiGv=w2400", description: "SomeDescription", sex: "Male", id: "someTestID124"), content: "I'm good and you?")
     
     let mockMessage3 = MMessage(user: MUser(username: "Alex", email: "alex@gmail.com", avatarStringURL: "https://lh3.googleusercontent.com/i1ntSY7ACWnaxtdxI0KO9vHh0UNtXRin1YNnSVCpfmE5JH9752u4tFLyd-gWM9Hi-zyASAW8lYXnNvLfT7LHJUVJOgjAqbA74b0-m-UU8XdZSiFnTnYRADTmRVyXOiprgp0TsiGv=w2400", description: "SomeDescription", sex: "Male", id: "someTestID123"), content: "I'm so fine!")
-    
-//    private var messageListener: ListenerRegistration?
     
     lazy private var messages: [MMessage] = [mockMessage1, mockMessage2, mockMessage3]
     
@@ -38,10 +35,6 @@ class ChatViewController: MessagesViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    deinit {
-//        messageListener?.remove()
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,16 +50,7 @@ class ChatViewController: MessagesViewController {
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
-        
-//        messageListener = ListenerService.shared.messagesObserve(chat: chat, completion: { (result) in
-//            switch result {
-//
-//            case .success(let message):
-//                self.insertNewMessage(message: message)
-//            case .failure(let error):
-//                self.showAlert(with: "Ошибка!", and: error.localizedDescription)
-//            }
-//        })
+
     }
     
     private func insertNewMessage(message: MMessage) {
@@ -114,7 +98,6 @@ extension ChatViewController {
     
     func configureSendButton() {
         messageInputBar.sendButton.setImage(UIImage(named: "Sent"), for: .normal)
-//        messageInputBar.sendButton.applyGradients(cornerRadius: 10)
         messageInputBar.setRightStackViewWidthConstant(to: 56, animated: false)
         messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 6, right: 30)
         messageInputBar.sendButton.setSize(CGSize(width: 48, height: 48), animated: false)
@@ -190,23 +173,6 @@ extension ChatViewController: MessagesDisplayDelegate {
         return .bubble
     }
 }
-
-// MARK: - MessageInputBarDelegate
-//extension ChatViewController: MessageInputBarDelegate {
-//    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-//        let message = MMessage(user: user, content: text)
-//        FirestoreService.shared.sendMessage(chat: chat, message: message) { (result) in
-//            switch result {
-//            case .success:
-//                self.messagesCollectionView.scrollToBottom()
-//            case .failure(let error):
-//                self.showAlert(with: "Ошибка!", and: error.localizedDescription)
-//            }
-//        }
-//        inputBar.inputTextView.text = ""
-//    }
-//}
-
 
 extension UIScrollView {
     

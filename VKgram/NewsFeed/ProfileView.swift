@@ -12,7 +12,6 @@ class ProfileView: UIView {
     
     var sourceImage: RoundCornersImageView = {
         let view = RoundCornersImageView(frame: .zero)
-//        view.contentMode = .scaleAspectFill
         view.backgroundColor = #colorLiteral(red: 1, green: 0.3864146769, blue: 0.4975627065, alpha: 1)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = true
@@ -20,7 +19,7 @@ class ProfileView: UIView {
     }()
     var sourceName: UILabel = {
         let label = UILabel()
-        label.font = Constants.Fonts.semiBoldOfSize16 // TODO: to add to constants
+        label.font = Constants.Fonts.semiBoldOfSize16 
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
