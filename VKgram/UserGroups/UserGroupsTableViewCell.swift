@@ -8,11 +8,11 @@
 
 import UIKit
 
-class UserGroupsTableViewCell: UITableViewCell {
+class UserGroupsTableViewCell: UITableViewCell { // TODO: to add search bar
     
     var groupImage: RoundCornersImageView = {
         let view = RoundCornersImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        view.backgroundColor = .blue
+//        view.backgroundColor = .blue
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -20,7 +20,7 @@ class UserGroupsTableViewCell: UITableViewCell {
     
     var groupName: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .brown
+//        label.backgroundColor = .brown
         label.font = Constants.Fonts.regularOfSize16
         label.sizeToFit()
         
@@ -32,7 +32,7 @@ class UserGroupsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .red
+//        self.backgroundColor = .red
         addSubview(groupImage)
         addSubview(groupName)
         setupConstraints()
@@ -62,7 +62,7 @@ class UserGroupsTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             
             groupImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            groupImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            groupImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),  // TODO: to add to constants
             groupImage.widthAnchor.constraint(equalTo: groupImage.heightAnchor),
             groupImage.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
             

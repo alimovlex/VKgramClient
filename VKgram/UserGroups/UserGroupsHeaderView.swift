@@ -10,54 +10,28 @@ import UIKit
 
 class UserGroupsHeaderView: UIView {
     
-    var profileImage: RoundCornersImageView = {
-        let view = RoundCornersImageView(frame: .zero)
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true
-        return view
-    }()
-    var profileNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = Constants.Fonts.semiBoldOfSize14
-        label.textAlignment = .left
+    var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 100, height: 120)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.scrollDirection = .horizontal
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.backgroundColor = .systemBackground
+        collection.isScrollEnabled = true
+        collection.showsHorizontalScrollIndicator = false
         
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var phoneNumberLabel: UILabel = {
-        let label = UILabel()
-        label.font = Constants.Fonts.regularOfSize12
-        label.textAlignment = .left
-        label.alpha = 0.5
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    var detailsContainerView: UIView = {
-        let view = UIView()
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        return collection
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addFirstLayerOfViews()
-        addSecondLayerOfViews()
-        updateConstraints()
+        addSubViews()
     }
     
-    func addFirstLayerOfViews() {
-        detailsContainerView.addSubview(profileNameLabel)
-        detailsContainerView.addSubview(phoneNumberLabel)
-    }
-    
-    func addSecondLayerOfViews() {
-        addSubview(detailsContainerView)
-        addSubview(profileImage)
+    func addSubViews() {
+        addSubview(collectionView)
     }
     
     required init?(coder: NSCoder) {
@@ -68,26 +42,11 @@ class UserGroupsHeaderView: UIView {
         super.updateConstraints()
         
         NSLayoutConstraint.activate([
-            profileImage.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            profileImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            profileImage.widthAnchor.constraint(equalTo: profileImage.heightAnchor),
-            profileImage.heightAnchor.constraint(equalToConstant: 120),
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),  // TODO: to add to constants
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
-            detailsContainerView.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor),
-            detailsContainerView.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 20),
-            detailsContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            
-            profileNameLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor),
-            profileNameLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor),
-            profileNameLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor),
-            profileNameLabel.heightAnchor.constraint(equalToConstant: 20),
-
-            phoneNumberLabel.topAnchor.constraint(equalTo: profileNameLabel.bottomAnchor, constant: 5),
-            phoneNumberLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor),
-            phoneNumberLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor),
-            phoneNumberLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            phoneNumberLabel.bottomAnchor.constraint(equalTo: detailsContainerView.bottomAnchor)
         ])
     }
 }

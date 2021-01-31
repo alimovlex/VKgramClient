@@ -41,17 +41,14 @@ class MainTabBarViewController: UITabBarController {
         let userFriendsViewController = createNavigationController(vc: UserFriendsTableViewController(), selected: userFilledImage, unselected: userImage)
         let userGroupsViewController = createNavigationController(vc: UserGroupsViewController(), selected: usersFilledImage, unselected: usersImage)
         let newsFeedViewController = createNavigationController(vc: NewsFeedViewController(), selected: homeFilledImage, unselected: homeImage)
-        let chatViewController = createNavigationController(vc:
-            
-            ChatViewController(user: MUser(username: "Alex", email: "alex@gmail.com", avatarStringURL: "https://lh3.googleusercontent.com/i1ntSY7ACWnaxtdxI0KO9vHh0UNtXRin1YNnSVCpfmE5JH9752u4tFLyd-gWM9Hi-zyASAW8lYXnNvLfT7LHJUVJOgjAqbA74b0-m-UU8XdZSiFnTnYRADTmRVyXOiprgp0TsiGv=w2400", description: "SomeDescription", sex: "Male", id: "someTestID123"), chat: MChat(friendUsername: "Misha", friendAvatarStringURL: "https://lh3.googleusercontent.com/i1ntSY7ACWnaxtdxI0KO9vHh0UNtXRin1YNnSVCpfmE5JH9752u4tFLyd-gWM9Hi-zyASAW8lYXnNvLfT7LHJUVJOgjAqbA74b0-m-UU8XdZSiFnTnYRADTmRVyXOiprgp0TsiGv=w2400", friendId: "someFriendId1232", lastMessageContent: "itIsSupposedToBeTheLastMessageContentHere")),
-                                                            selected: settingsFilledImage, unselected: settingsImage)
+        let settingsViewController = createNavigationController(vc: SettingsViewController(), selected: settingsFilledImage, unselected: settingsImage)
         
-        viewControllers = [newsFeedViewController, userFriendsViewController, userGroupsViewController, chatViewController]
+        viewControllers = [newsFeedViewController, userFriendsViewController, userGroupsViewController, settingsViewController]
         
         guard let items = tabBar.items else { return }
         
-        for item in items {
-            item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
+        for item in items { // TODO: to check why it is not working (to slightly shift the images down)
+            item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0) // TODO: to put in constants
         }
     }
 }

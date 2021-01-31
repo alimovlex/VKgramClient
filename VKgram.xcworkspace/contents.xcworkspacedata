@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Geekbrains/9. VKgram/Git/VKgram/VKgram/UserGroups/SettingsViewController.swift">
+   </FileRef>
+   <FileRef
       location = "group:VKgram.xcodeproj">
    </FileRef>
    <FileRef

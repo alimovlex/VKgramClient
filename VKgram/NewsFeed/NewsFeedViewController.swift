@@ -11,7 +11,7 @@ import PromiseKit
 
 class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     
-    var networkService = NetworkService()
+    var newsFeedService = NewsFeedService()
     
     var newsFeedGroups = [Group]()
     
@@ -56,8 +56,8 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        networkService.getNewsFeedItems()?.done { result in
-            self.handleGetNewsFeedResponse(item: result.0.response, profile: result.1.response, group: result.2.response)
+        newsFeedService.getNewsFeedItems().done { result in
+            self.handleGetNewsFeedResponse(item: result.0, profile: result.1, group: result.2)
         }
         
         view.addSubview(tableView)
@@ -73,8 +73,9 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
     @objc func refreshNews() {
         
         self.refreshControl.beginRefreshing()
-        networkService.getNewsFeedItems()?.done { result in
-            self.handleGetNewsFeedResponse(item: result.0.response, profile: result.1.response, group: result.2.response)
+        newsFeedService.getNewsFeedItems().done { result in
+            
+            self.handleGetNewsFeedResponse(item: result.0, profile: result.1, group: result.2)
         }
     }
     
@@ -87,7 +88,7 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         self.nextFrom = item.nextFrom
         
         var profilesOrGroups = [ProfileInterface]()
-        
+
         for item in items {
         
         if item.sourceID! >= 0 {
@@ -101,24 +102,12 @@ class NewsFeedViewController: UIViewController, NewsFeedTableViewCellDelegate {
         let profileDataToDisplay = profilesOrGroups.first(where: {$0.id == positiveSourceId })
             
         let newElement = (profile: profileDataToDisplay, newsItem: item)
-            
-            if let photos = item.attachments?.compactMap({$0?.postPhoto}) {
-                cachePhotoImages(urls: photos)
-            }
         
         profilesAndItems.append(newElement)
             
         }
         
         DispatchQueue.main.async { self.tableView.reloadData() }
-    }
-    
-    func cachePhotoImages(urls: [String]) {
-        for url in urls {
-            PhotoService.shared.photo(url: url) { image in
-                // images saved in photoService cache
-            }
-        }
     }
     
     func revealPost(for cell: NewsFeedTableViewCell) {
@@ -184,22 +173,23 @@ extension NewsFeedViewController: UITableViewDataSourcePrefetching {
         guard indexPath.row == profilesAndItems.count - 1 else { return }
         
         guard !isLoading else { return }
-
+            
             let lastIndex = indexPath.row
             isLoading = true
             firstly {
-                networkService.getNewsFeedItemsWithStartTime(startFrom: nextFrom)!
+                newsFeedService.getNewsFeedItemsWithStartTime(startFrom: nextFrom)
             }.done { (result) in
                 
-                self.handleGetNewsFeedResponse(item: result.0.response, profile: result.1.response, group: result.2.response)
+                self.handleGetNewsFeedResponse(item: result.0, profile: result.1, group: result.2)
                 
-                let indexPaths = self.makeIndexSet(lastIndex: lastIndex, result.0.response.items.count)
+                let indexPaths = self.makeIndexSet(lastIndex: lastIndex, result.0.items.count)
                 tableView.insertRows(at: indexPaths, with: .automatic)
                 self.isLoading = false
             }.catch { (error) in
                 debugPrint(error.localizedDescription)
                 self.isLoading = false
             }
+//        }
     }
 }
 }

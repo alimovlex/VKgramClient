@@ -8,10 +8,10 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct GroupsWelcome: Codable {
-    let response: GroupsResponse
-}
+//// MARK: - Welcome
+//struct GroupsWelcome: Codable {
+//    let response: GroupsResponse
+//}
 
 // MARK: - Response
 struct GroupsResponse: Codable {

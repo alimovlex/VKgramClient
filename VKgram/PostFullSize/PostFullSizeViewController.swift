@@ -9,6 +9,8 @@
 import UIKit
 
 class PostFullSizeViewController: UIViewController {
+    // TODO: to improve swipe, to make it response to pan gesture
+    // TODO: to add like button, counter, share button etc.
     
     var selectedPostIndex: Int?
     
@@ -35,6 +37,7 @@ class PostFullSizeViewController: UIViewController {
     
     var likeBarView: LikeBarView = {
         let view = LikeBarView(theme: .white)
+//        view.backgroundColor = .orange
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -46,6 +49,7 @@ class PostFullSizeViewController: UIViewController {
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textColor = .white
+//        label.backgroundColor = .systemYellow
         label.sizeToFit()
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -67,6 +71,8 @@ class PostFullSizeViewController: UIViewController {
         guard let photo = photos?[index!] else { return }
         
         if sender.direction == .right {
+            print("left swipe made")
+            //            if selectedPost.photoUrls.indices.contains(index! - 1) {
             if (photos?.indices.contains(index! - 1))! {
                 
                 UIView.transition(with: imageView,
@@ -80,6 +86,7 @@ class PostFullSizeViewController: UIViewController {
             }
         }
         if sender.direction == .left {
+            print("right swipe made")
             if (photos?.indices.contains(index! + 1))! {
                 
                 UIView.transition(with: imageView,

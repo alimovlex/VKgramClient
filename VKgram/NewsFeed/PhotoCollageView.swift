@@ -24,6 +24,9 @@ class PhotoCollageView: UIView {
     
     let noImageLink = "https://lh3.googleusercontent.com/i1ntSY7ACWnaxtdxI0KO9vHh0UNtXRin1YNnSVCpfmE5JH9752u4tFLyd-gWM9Hi-zyASAW8lYXnNvLfT7LHJUVJOgjAqbA74b0-m-UU8XdZSiFnTnYRADTmRVyXOiprgp0TsiGv=w2400"
     
+//    var post = Post()
+//        { didSet { print("postNo did change to:\(post.postNo)") } }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -35,6 +38,9 @@ class PhotoCollageView: UIView {
     }
     
     private func commonInit() {
+//        let bundle = Bundle(for: type(of: self))
+//        bundle.loadNibNamed("PhotoCollageView", owner: self, options: nil)
+//        print("photoCollage has been init-zed")
         addSubview(contentView)
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -44,12 +50,16 @@ class PhotoCollageView: UIView {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(PhotoCollageCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
-
+//        collectionView.collectionViewLayout = PhotosCollageLayout()
         collectionView.pin(to: contentView)
         
         
     }
-
+    
+//    private func initCollectionView() {
+//        collectionView.pin(to: self)
+//        collectionView.collectionViewLayout = PhotosCollageLayout()
+//    }
 }
 
 extension PhotoCollageView: UICollectionViewDataSource, UICollectionViewDelegate {

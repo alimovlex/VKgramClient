@@ -13,6 +13,7 @@ class LikeButton: UIButton { // TODO: redo the button
     var filled: Bool = false {
         didSet {
             setNeedsDisplay()
+//            print("filled has changed")
         }
     }
     

@@ -77,7 +77,9 @@ class PhotoCollageCollectionViewCell: UICollectionViewCell {
     func configure(for model: String) {
         
         PhotoService.shared.photo(url: model) { image in
+            DispatchQueue.main.async {
             self.postImage.image = image
+            }
         }
         darkView.isHidden = true
         label.isHidden = true
@@ -87,7 +89,9 @@ class PhotoCollageCollectionViewCell: UICollectionViewCell {
 
         label.text = labelText
         PhotoService.shared.photo(url: model) { image in
+            DispatchQueue.main.async {
             self.postImage.image = image
+            }
         }
 
         darkView.isHidden = false

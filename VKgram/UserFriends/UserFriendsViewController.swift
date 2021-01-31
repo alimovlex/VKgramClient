@@ -11,13 +11,15 @@ import UIKit
 
 class UserFriendsTableViewController: UIViewController {
     
-    private (set) var networkService = NetworkService()
+//    private (set) var networkService = NetworkService()
+    
+    private (set) var friendService = FriendsService()
     
     private (set) var storageService = StorageService()
     
     private (set) var friends = [User]()
     
-    private (set) var selectedFriend = User(id: Int(), firstName: "", lastName: "", photo_200: "", trackCode: "") // TODO: to find a better way to init?
+    private (set) var selectedFriend: User?
     
     private (set) var friendsDictionary = [String: [User]]()
     
@@ -47,7 +49,7 @@ class UserFriendsTableViewController: UIViewController {
     
     private (set) var filteredFriends: [User] = []
     
-    private (set) var userInfo: UserInfoResponse?
+//    private (set) var userInfo: UserInfoResponse?
     
     //--------------
     
@@ -56,7 +58,7 @@ class UserFriendsTableViewController: UIViewController {
         
         view.addSubview(tableView)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .systemBackground
         tableView.register(UserFriendsTableViewCell.self, forCellReuseIdentifier: cellID)
         tableView.delegate = self
         tableView.dataSource = self
@@ -65,14 +67,23 @@ class UserFriendsTableViewController: UIViewController {
         setupConstraints()
         tableView.tableHeaderView?.layoutIfNeeded()
         
-        networkService.getUserFriends(userId: Session.shared.userId!)?
-            .done { friends in
-                self.handleUserFriendsResponse(friends: friends.response.items)
+//        networkService.getUserFriends(userId: Session.shared.userId!)?
+//            .done { friends in
+//                self.handleUserFriendsResponse(friends: friends.response.items)
+//        }
+        
+        friendService.getFriends().done {
+            result in
+            self.handleUserFriendsResponse(friends: result)
         }
         
-        networkService.getUserInfo(userId: Session.shared.userId!)?
-            .done { result in
-                self.handleGetUserInfoResponseForAccountHeader(userInfo: result.response.first!)
+//        networkService.getUserInfo(userId: Session.shared.userId!)?
+//            .done { result in
+//                self.handleGetUserInfoResponseForAccountHeader(userInfo: result.response.first!)
+//        }
+        friendService.getUsers(ids: ApiManager.session.userId).done {
+            result in
+            self.handleGetUserInfoResponseForAccountHeader(userInfo: result.first!)
         }
         
         getFriendsDictionary()
@@ -117,14 +128,14 @@ class UserFriendsTableViewController: UIViewController {
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
     
-    func handleGetUserInfoResponseForAccountHeader(userInfo: UserInfoResponse) {
+    func handleGetUserInfoResponseForAccountHeader(userInfo: User) {
         //TODO: to save data to the database
         DispatchQueue.main.async {
-            let placeHolderImage = UIImage.gifImageWithName("spinner")
-            PhotoService.shared.photo(url: userInfo.photo200_Orig) { image in
+
+            PhotoService.shared.photo(url: userInfo.photo200) { image in
                 self.accountHeaderView.profileImage.image = image
             }
-            self.accountHeaderView.phoneNumberLabel.text = userInfo.bdate
+            self.accountHeaderView.phoneNumberLabel.text = userInfo.firstName // TODO: to change to screen name
             self.accountHeaderView.profileNameLabel.text = "\(userInfo.firstName) \(userInfo.lastName)"
             
             self.tableView.reloadData() }

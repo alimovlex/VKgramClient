@@ -12,15 +12,16 @@ import CoreData
 
 
 extension LocalUser {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<LocalUser> {
         return NSFetchRequest<LocalUser>(entityName: "LocalUser")
     }
-
-    @NSManaged public var firstName: String?
+    
+    @NSManaged public var firstName: String
     @NSManaged public var id: Int64
-    @NSManaged public var lastName: String?
-    @NSManaged public var photo_200: String?
-    @NSManaged public var trackCode: String?
-
+    @NSManaged public var lastName: String
+    @NSManaged public var photo200: String
+    @NSManaged public var canAccessClosed: Bool
+    @NSManaged public var isClosed: Bool
+    @NSManaged public var verified: Int
 }

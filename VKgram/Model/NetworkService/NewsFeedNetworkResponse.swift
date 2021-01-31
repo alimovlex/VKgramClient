@@ -5,10 +5,10 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct ItemWrappedResponse: Codable { // TODO: try to remove unrequired structs and parameters
-    let response: ItemResponse
-}
+//// MARK: - Welcome
+//struct ItemWrappedResponse: Codable { // TODO: try to remove unrequired structs and parameters
+//    let response: ItemResponse
+//}
 
 // MARK: - Response
 struct ItemResponse: Codable {
@@ -21,12 +21,12 @@ struct ItemResponse: Codable {
     }
 }
 
-struct ProfileWrappedResponse: Decodable { // TODO: try to remove unrequired structs
-    let response: ProfileResponse
-}
+//struct ProfileWrappedResponse: Decodable { // TODO: try to remove unrequired structs
+//    let response: ProfileResponse
+//}
 
 // MARK: - Response
-struct ProfileResponse: Decodable {
+struct ProfileResponse: Codable {
     let profiles: [Profile]
 
     enum CodingKeys: String, CodingKey {
@@ -34,12 +34,12 @@ struct ProfileResponse: Decodable {
     }
 }
 
-struct GroupWrappedResponse: Decodable { // TODO: try to remove unrequired structs
-    let response: GroupResponse
-}
+//struct GroupWrappedResponse: Decodable { // TODO: try to remove unrequired structs
+//    let response: GroupResponse
+//}
 
 // MARK: - Response
-struct GroupResponse: Decodable {
+struct GroupResponse: Codable {
     let groups: [Group]
 
     enum CodingKeys: String, CodingKey {
@@ -48,7 +48,7 @@ struct GroupResponse: Decodable {
 }
 
 // MARK: - Group
-struct Group: Decodable, ProfileInterface {
+struct Group: Codable, ProfileInterface {
     let id: Int
     let name, screenName: String
     let isClosed: Int
@@ -324,7 +324,8 @@ protocol ProfileInterface {
 }
 
 protocol PhotoInterface {
-    var bigPhoto: String { get }
+    var largePhoto: String { get }
+    var mediumPhoto: String { get }
     var smallPhoto: String { get }
     var repostsCount: String { get }
     var likesCount: String { get }

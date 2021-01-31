@@ -35,7 +35,7 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
         return label
     }()
     
-    var selectedFriend = User(id: Int(), firstName: "", lastName: "", photo_200: "", trackCode: "")
+    var selectedFriend: User?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -58,7 +58,7 @@ class UserFriendsTableViewCell: UITableViewCell { // TODO: to add search bar
     func configure(for friend: User) {
         friendFirstName.text = "\(friend.firstName)"
         friendLastName.text = "\(friend.lastName)"
-        PhotoService.shared.photo(url: friend.photo_200) { image in
+        PhotoService.shared.photo(url: friend.photo200) { image in
             self.friendImage.image = image
         }
         

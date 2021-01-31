@@ -10,16 +10,23 @@ import UIKit
 
 class UserGroupsViewController: UIViewController {
     
-    private (set) var networkService = NetworkService()
+    private (set) var groupsService = GroupsService()
     
     private (set) var storageService = StorageService()
+    
+    private (set) var appsService = AppsService()
     
     private (set) var groups = [GroupItem]()
     
     private (set) var selectedGroup: GroupItem?
     
+    private (set) var apps = [App]()
+    
+    private let appIds = "7649424_616595797, 7687945_616595797, 7180261, 7453367_616595797, 7385430_616595797, 7624579_616595797, 7629036_616595797, 7647942_616595797, 7577735_616595797"
+    
     private (set) var groupHeaderView: UserGroupsHeaderView = {
         let view = UserGroupsHeaderView()
+        view.backgroundColor = .lightGray
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -34,84 +41,109 @@ class UserGroupsViewController: UIViewController {
     
     private let tableViewRowHeight: CGFloat = 40
     
-    private let cellID = "UserGroupsTableViewCell"
-    
-    //--------------
+    private let tableViewCellID = "UserGroupsTableViewCell"
     
     private let searchController = UISearchController(searchResultsController: nil)
     
     private (set) var filteredGroups: [GroupItem] = []
     
-    private (set) var userInfo: UserInfoResponse?
-    
     var groupsToDisplay = [GroupItem]()
-    
-    //--------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTableView()
+        
+        setupCollectionView()
+        
+        setupConstraints()
+        
+        tableView.tableHeaderView?.layoutIfNeeded()
+        
+        getGroups()
+        
+        getApps()
+        
+        setupSearchController()
+        
+    }
+    
+    private func setupTableView() {
         view.addSubview(tableView)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .cyan
-        tableView.register(UserGroupsTableViewCell.self, forCellReuseIdentifier: cellID)
+        tableView.backgroundColor = .systemBackground
+        tableView.register(UserGroupsTableViewCell.self, forCellReuseIdentifier: tableViewCellID)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView = groupHeaderView
         tableView.pin(to: view)
-        setupConstraints()
-        tableView.tableHeaderView?.layoutIfNeeded()
-        
-        networkService.getUserGroups(userId: Session.shared.userId!)?
-            .done { groups in
-                self.handleUserGroupsResponse(groups: groups.response.items)
-                print (groups)
-        }
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Friends"
-        setupSearchBarFont()
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-
     }
     
-    //--------
+    private func setupCollectionView() {
+        groupHeaderView.collectionView.delegate = self
+        groupHeaderView.collectionView.dataSource = self
+        groupHeaderView.collectionView.register(AppCell.self, forCellWithReuseIdentifier: AppCell.reuseId)
+    }
     
-    func setupSearchBarFont() {
+    private func setupSearchBarFont() {
         let textFieldInsideUISearchBar = searchController.searchBar.value(forKey: "searchField") as? UITextField
         let placeholderLabel = textFieldInsideUISearchBar?.value(forKey: "placeholderLabel") as? UILabel
         placeholderLabel?.font = Constants.Fonts.regularOfSize16
     }
     
-    var isSearchBarEmpty: Bool {
+    private func getGroups() {
+        groupsService.getUserGroups(userId: Int(ApiManager.session.userId)!)
+            .done { groups in
+                self.handleUserGroupsResponse(groups: groups.items)
+                //                print (groups)
+        }
+    }
+    
+    private func getApps() {
+        appsService.getApps(appIds: appIds)
+            .done { apps in
+                self.handleAppsResponse(apps: apps.items)
+                //                print (groups)
+        }
+    }
+    
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Groups"
+        setupSearchBarFont()
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    private var isSearchBarEmpty: Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    var isFiltering: Bool {
+    private var isFiltering: Bool {
         let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
         return searchController.isActive && (!isSearchBarEmpty || searchBarScopeIsFiltering)
     }
     
-    func filterContentForSearchText(_ searchText: String) {
+    private func filterContentForSearchText(_ searchText: String) {
         filteredGroups = groups.filter { (group: GroupItem) -> Bool in
             return group.name.lowercased().contains(searchText.lowercased()) 
         }
         tableView.reloadData()
     }
     
-    func handleUserGroupsResponse(groups: [GroupItem]) {
-//        self.storageService.saveUsers(users: friends)
-//        self.groups = self.storageService.loadUsers()
-        //        debugPrint("users print:", self.friends)
+    private func handleUserGroupsResponse(groups: [GroupItem]) {
         self.groups = groups
         DispatchQueue.main.async { self.tableView.reloadData() }
     }
     
-    func setupConstraints() {
+    private func handleAppsResponse(apps: [App]) {
+        self.apps = apps
+        DispatchQueue.main.async { self.groupHeaderView.collectionView.reloadData() }
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-            
             groupHeaderView.centerXAnchor.constraint(equalTo: self.tableView.centerXAnchor),
             groupHeaderView.widthAnchor.constraint(equalTo: self.tableView.widthAnchor),
             groupHeaderView.topAnchor.constraint(equalTo: self.tableView.topAnchor),
@@ -119,7 +151,7 @@ class UserGroupsViewController: UIViewController {
         ])
     }
     
-    func getGroupsToDisplay() {
+    private func getGroupsToDisplay() {
         
         if isFiltering {
             groupsToDisplay = filteredGroups
@@ -128,6 +160,7 @@ class UserGroupsViewController: UIViewController {
         } else {
             groupsToDisplay = groups
             tableView.tableHeaderView = groupHeaderView
+            setupConstraints()
         }
         
     }
@@ -143,7 +176,6 @@ extension UserGroupsViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         getGroupsToDisplay()
         return 1
     }
@@ -153,21 +185,13 @@ extension UserGroupsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! UserGroupsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! UserGroupsTableViewCell
         
-            cell.configure(for: groupsToDisplay[indexPath.row])
+        cell.configure(for: groupsToDisplay[indexPath.row])
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! UserFriendsTableViewCell
-        let friendPhotoViewController = FriendPostsViewController()
-        friendPhotoViewController.selectedFriend = cell.selectedFriend
-        self.show(friendPhotoViewController, sender: nil)
-        
-    }
-
 }
 
 extension UserGroupsViewController: UISearchResultsUpdating {
@@ -175,6 +199,26 @@ extension UserGroupsViewController: UISearchResultsUpdating {
         let searchBar = searchController.searchBar
         filterContentForSearchText(searchBar.text!)
     }
+}
+
+extension UserGroupsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return apps.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppCell.reuseId, for: indexPath) as! AppCell
+        let app = apps[indexPath.row]
+        cell.configure(for: app)
+        return cell
+    }
+    
+    
 }
 
 

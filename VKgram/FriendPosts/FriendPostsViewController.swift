@@ -26,11 +26,13 @@ class FriendPostsViewController: UIViewController {
         return collection
     }()
     
-    private (set) var networkService = NetworkService()
+//    private (set) var networkService = NetworkService()
+    
+    private (set) var userPhotoService = UserPhotoService()
     
     private (set) var storageService = StorageService()
     
-    var selectedFriend = User(id: Int(), firstName: "", lastName: "", photo_200: "", trackCode: "")
+    var selectedFriend: User?
     
     var photos = [Photo]()
     
@@ -46,9 +48,14 @@ class FriendPostsViewController: UIViewController {
         collectionView.register(FriendPostsCollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.pin(to: view)
         
-        networkService.getUserPhotos(userId: selectedFriend.id)?
+//        networkService.getUserPhotos(userId: selectedFriend!.id)?
+//            .done { photos in
+//                self.handleGetUserPhotosResponse(photos: photos.response.items)
+//        }
+        
+        userPhotoService.getPhotos(userId: selectedFriend!.id)
             .done { photos in
-                self.handleGetUserPhotosResponse(photos: photos.response.items)
+                self.handleGetUserPhotosResponse(photos: photos.items)
         }
         
     }
@@ -66,7 +73,7 @@ class FriendPostsViewController: UIViewController {
 
         guard photos.count > 0 else { return }
         for photo in photos {
-            let photoRepresentable = PhotoRepresentable(photo: photo.bigPhoto, likes: photo.likesCount, text: photo.text)
+            let photoRepresentable = PhotoRepresentable(photo: photo.mediumPhoto, likes: photo.likesCount, text: photo.text)
             postFullSizeViewController.photos?.append(photoRepresentable)
         }
         

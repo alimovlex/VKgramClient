@@ -72,8 +72,10 @@ class StorageService {
             localUser.setValue(user.id, forKey: "id")
             localUser.setValue(user.firstName, forKey: "firstName")
             localUser.setValue(user.lastName, forKey: "lastName")
-            localUser.setValue(user.trackCode, forKey: "trackCode")
-            localUser.setValue(user.photo_200, forKey: "photo_200")
+            localUser.setValue(user.canAccessClosed, forKey: "canAccessClosed")
+            localUser.setValue(user.isClosed, forKey: "isClosed")
+            localUser.setValue(user.photo200, forKey: "photo200")
+            localUser.setValue(user.verified, forKey: "verified")
         }
         coreDataStack.saveContext()
     }
@@ -84,10 +86,12 @@ class StorageService {
         let localUsers = (try? context.fetch(LocalUser.fetchRequest()) as? [LocalUser] ?? [])
         for localUser in localUsers! {
             let user = User(id: Int(localUser.id),
-                            firstName: localUser.firstName!,
-                            lastName: localUser.lastName!,
-                            photo_200: localUser.photo_200!,
-                            trackCode: localUser.trackCode!)
+                            firstName: localUser.firstName,
+                            lastName: localUser.lastName,
+                            canAccessClosed: localUser.canAccessClosed,
+                            isClosed: localUser.isClosed,
+                            photo200: localUser.photo200,
+                            verified: localUser.verified)
             users.append(user)
         }
         return users
@@ -100,25 +104,16 @@ class StorageService {
             localPhoto.setValue(photo.id, forKey: "id")
             localPhoto.setValue(photo.albumID, forKey: "albumID")
             localPhoto.setValue(photo.date, forKey: "date")
-            localPhoto.setValue(photo.hasTags, forKey: "hasTags")
             localPhoto.setValue(photo.height, forKey: "height")
             localPhoto.setValue(photo.ownerID, forKey: "ownerID")
             localPhoto.setValue(photo.photo130, forKey: "photo130")
             localPhoto.setValue(photo.photo604, forKey: "photo604")
-            localPhoto.setValue(photo.photo75, forKey: "photo75")
             localPhoto.setValue(photo.photo807, forKey: "photo807")
             localPhoto.setValue(photo.text, forKey: "text")
             localPhoto.setValue(photo.width, forKey: "width")
-            
-            localPhoto.setValue(photo.photo1280, forKey: "photo1280")
             localPhoto.setValue(photo.postID, forKey: "postID")
-            localPhoto.setValue(photo.likes.userLikes, forKey: "likesUserLikes")
             localPhoto.setValue(photo.likes.count, forKey: "likesCount")
-            localPhoto.setValue(photo.reposts.count, forKey: "repostsPhotoComments")
-            localPhoto.setValue(photo.comments.count, forKey: "commentsPhotoComments")
-            localPhoto.setValue(photo.canComment, forKey: "canComment")
-            localPhoto.setValue(photo.tags.count, forKey: "tagsPhotoComments")
-            localPhoto.setValue(photo.photo2560, forKey: "photo2560")
+            localPhoto.setValue(photo.reposts.count, forKey: "repostsCount")
         }
         coreDataStack.saveContext()
     }
@@ -129,30 +124,22 @@ class StorageService {
         var localPhotos = [LocalPhoto]()
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LocalPhoto")
         localPhotos = ( try? context.fetch(fetchRequest)) as! [LocalPhoto]
-
         for localPhoto in localPhotos {
 
             let photo = Photo(albumID: Int(localPhoto.albumID),
                               date: Int(localPhoto.date),
                               id: Int(localPhoto.id),
                               ownerID: Int(localPhoto.ownerID),
-                              hasTags: localPhoto.hasTags,
                               height: Int(localPhoto.height),
-                              photo1280: localPhoto.photo1280,
                               photo130: localPhoto.photo130,
                               photo604: localPhoto.photo604,
-                              photo75: localPhoto.photo75,
                               photo807: localPhoto.photo807,
                               postID: Int(localPhoto.postID),
                               text: localPhoto.text,
                               width: Int(localPhoto.width),
-                              likes: PhotoLikes(userLikes: Int(localPhoto.likesUserLikes), count: Int(localPhoto.likesCount)),
-                              reposts: PhotoComments(count: Int(localPhoto.repostsPhotoComments)),
-                              comments: PhotoComments(count: Int(localPhoto.commentsPhotoComments)),
-                              canComment: Int(localPhoto.canComment),
-                              tags: PhotoComments(count: Int(localPhoto.tagsPhotoComments)),
-                              photo2560: localPhoto.photo2560)
-
+                              likes: Count(count: Int(localPhoto.likesCount)),
+                              reposts: Count(count: Int(localPhoto.repostsCount))
+            )
             photos.append(photo)
         }
         return photos

@@ -21,6 +21,8 @@ class LoginFormViewController: UIViewController {
     
     var networkService = NetworkService()
     
+//    let firebaseService = FirebaseService() // TODO: to integrate firebase
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +46,8 @@ extension LoginFormViewController: WKNavigationDelegate {
             return
         }
         
+//        debugPrint("url:", url)
+        
         let params = fragment
             .components(separatedBy: "&")
             .map { $0.components(separatedBy: "=") }
@@ -59,14 +63,34 @@ extension LoginFormViewController: WKNavigationDelegate {
         
         let userId = params["user_id"]
         
-        Session.shared.token = token
+        ApiManager.session.token = token!
         
-        Session.shared.userId = Int(userId!)
+        ApiManager.session.userId = userId!
+        
+//        func singInAnonymouslyToFirebase(success: @escaping () -> Void) {
+//            Auth.auth().signInAnonymously { (result, error) in
+//                switch error {
+//                case let .some(error):
+//                    debugPrint(error.localizedDescription)
+//                default:
+//                    success()
+//                }
+//            }
+//        }
+        
+        
+        
+//        try? Auth.auth().signOut()
+        
+//        singInAnonymouslyToFirebase() { [unowned self] in
+//
+//            self.firebaseService.saveUser(userID: Session.shared.userId!)
         
             let tabBarController = MainTabBarViewController()
         
         tabBarController.modalPresentationStyle = .fullScreen
         self.present(tabBarController, animated: true, completion: nil)
+//        }
         
         decisionHandler(.cancel)
     }
